@@ -9,7 +9,7 @@ Install using the Artian CLI:
 
 	php artisan bundle:install sitemap
 
-then edit ``application/bundles.php`` to autoload messages:
+then edit ``application/bundles.php`` to autoload sitemap:
 
 ```php
 'sitemap' => array('auto' => true)
