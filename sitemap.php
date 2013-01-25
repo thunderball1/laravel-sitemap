@@ -3,7 +3,7 @@
  * Sitemap class for laravel-sitemap bundle.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 1.2.1
+ * @version 1.3
  * @link http://roumen.me/projects/laravel-sitemap
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -73,6 +73,25 @@ class Sitemap
             default:
                 return Response::make(Response::view('sitemap::xml', array('items' => $this->items)), 200, array('Content-type' => 'text/xml; charset=utf-8'));
         }
+    }
+
+    /**
+     * Generate sitemap and store it to a file
+     *
+     * @param string $format (options: xml, html, txt, ror-rss, ror-rdf)
+     * @param string $filename (without file extension, may be a path like 'sitemaps/sitemap1' but must exist)
+     *
+     * @returns void
+     */
+    public function store($format = 'xml', $filename = 'sitemap')
+    {
+        $content = $this->render($format);
+
+        if ($format == 'ror-rss' || $format == 'ror-rdf') $format = 'xml';
+
+        $file = path('public') . $filename . '.' .$format;
+
+        File::put($file, $content);
     }
 
 }
