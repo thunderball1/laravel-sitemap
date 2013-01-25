@@ -15,7 +15,7 @@ then edit ``application/bundles.php`` to autoload sitemap:
 'sitemap' => array('auto' => true)
 ```
 
-## Example (xml)
+## Example: Dynamic sitemap
 
 ```php
 Route::get('sitemap', function(){
@@ -38,29 +38,36 @@ Route::get('sitemap', function(){
 });
 ```
 
-## Example (ror-rdf)
+## Example: Artisan task to store sitemap in a file
+
+Go to and edit ``bundles/sitemap/tasks/generate.php`` or create new custom task in your application folder
+
+Then add a sitemap in your run() method as you normally would, but use store() instead of render()
 
 ```php
-Route::get('ror-sitemap', function(){
-
+public function run($arguments)
+{
     $sitemap = new Sitemap();
 
-    // set sitemap's title and url (only for html, ror-rss and ror-rdf)
-    $sitemap->title = 'ROR sitemap';
-    $sitemap->link = 'http://domain.tld';
-
-    // set item's url, date, sortOrder, updatePeriod, title (optional)
-    $sitemap->add(URL::to(), '2012-09-10T20:10:00+02:00', '0', 'daily', 'My page title');
-    $sitemap->add(URL::to('page'), '2012-09-09T12:30:00+02:00', '1', 'monthly', 'Other page title');
+    // set item's url, date, priority, freq
+    $sitemap->add(URL::to(), '2012-08-25T20:10:00+02:00', '1.0', 'daily');
+    $sitemap->add(URL::to('page'), '2012-08-26T12:30:00+02:00', '0.9', 'monthly');
 
     $posts = DB::table('posts')->order_by('created', 'desc')->get();
     foreach ($posts as $post)
     {
-        $sitemap->add(URL::to('post/'.$post->slug), $post->modified, '2', 'weekly', $post->title);
+        $sitemap->add($post->slug, $post->modified, $post->priority, $post->freq);
     }
 
-    // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
-    return $sitemap->render('ror-rdf');
+    // generate your sitemap and store it to a file
+    $sitemap->store('xml','sitemap');
 
+    // some custom cli message (optional)
+    echo 'done.';
 });
 ```
+Now you can use artisan to execute this task
+
+``php artisan sitemap::generate``
+
+Optionally you could set your crontab to update this sitemap periodically
