@@ -81,7 +81,7 @@ class Sitemap
      * @param string $format (options: xml, html, txt, ror-rss, ror-rdf)
      * @param string $filename (without file extension, may be a path like 'sitemaps/sitemap1' but must exist)
      *
-     * @returns void
+     * @return void
      */
     public function store($format = 'xml', $filename = 'sitemap')
     {
