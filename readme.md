@@ -1,4 +1,4 @@
-# [laravel-sitemap](http://roumen.me/projects/laravel-sitemap) bundle
+# [laravel-sitemap](http://roumen.it/projects/laravel-sitemap) bundle
 
 A simple sitemap generator for Laravel.
 

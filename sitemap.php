@@ -3,8 +3,8 @@
  * Sitemap class for laravel-sitemap bundle.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 1.3
- * @link http://roumen.me/projects/laravel-sitemap
+ * @version 1.4
+ * @link http://roumen.it/projects/laravel-sitemap
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
